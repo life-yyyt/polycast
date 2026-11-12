@@ -1,180 +1,96 @@
-# Design notes
+# 设计记录
 
-Short record of the decisions that were not obvious, and what they cost.
+一份简短的记录：哪些决策并不显然，以及它们各自的代价。
 
-## 1. The panel runs in parallel and cannot see each other
+## 1. 面板并行执行，且互相不可见
 
-Panel members run concurrently against the same prompt and never receive each
-other's output. This is the single most consequential choice in the codebase.
+面板成员基于同一份提示词并发运行，永远不会拿到彼此的输出。这是整个代码库里后果最重的一个选择。
 
-The alternative — a debate loop where each analyst sees the previous answers —
-produces tighter agreement and usually higher confidence. It also produces
-worse forecasts, because the panel converges on the first confident-sounding
-argument rather than on the evidence. The `agreement` we report is then an
-artefact of the dialogue, not a measure of genuine uncertainty.
+另一种做法是辩论循环——每个分析师都能看到前面的答案。那样会得到更一致的结论，通常也更高的信心。但预测会变差：面板会收敛到第一个听起来斩钉截铁的论点上，而不是收敛到证据上。此时我们报告的「一致程度」是对话的副产品，而不是真实不确定性的度量。
 
-Cost: we lose the ability to make analysts respond to each other's strongest
-point. The red team exists partly to recover that, with a bounded shift.
+代价：我们失去了让分析师直接回应彼此最强论点的能力。红队机制部分地弥补了这一点，代价是调整量有上限。
 
-## 2. The red team runs after the panel, not beside it
+## 2. 红队在面板之后运行，而不是与之并行
 
-The critic receives the panel mean, every analyst's probability and reasoning,
-and the resolution criteria. It returns a bounded shift in `[-0.3, 0.3]`.
+质疑者拿到的是面板均值、每个分析师的概率与推理，以及问题的判定标准。它返回一个限制在 `[-0.3, 0.3]` 的调整量。
 
-Running it after means it argues against a concrete number. Running it before
-means it comments on a plan rather than on a conclusion, and gets ignored.
+放在之后，意味着它针对的是一个具体的数字。放在之前，意味着它评论的是一份计划而不是一个结论，然后被忽略。
 
-The bound is deliberate. An unbounded critic can turn any panel into a
-single-number pipeline, which destroys the ensemble property that justified the
-panel in the first place.
+这个上限是刻意的。一个无限制的质疑者可以把任何面板变成单点管线，而这恰恰破坏了当初设置面板的意义。
 
-## 3. Resolution criteria are mandatory
+## 3. 判定标准是必填项
 
-`Question.resolution_criteria` is a required field, and the API rejects
-questions without it.
+`Question.resolution_criteria` 是必填字段，API 会拒绝没有它的问题。
 
-When analysts answer slightly different questions, the spread between them
-looks like uncertainty and the mean looks like an estimate. It is neither. In
-a calibration study the single largest source of unusable forecasts was
-ambiguity in what counted as "resolved", not a modelling error.
+当分析师回答的其实是略有差异的问题时，他们之间的差异看起来像是不确定性，而均值看起来像是一个估计值——其实两者都不是。在一次校准研究里，最大的那批不可用预测，根源是「到底什么算已判定」这件事本身有歧义，而不是模型出了错。
 
-## 4. Confidence-weighted mean, trimmed when the panel is large enough
+## 4. 置信度加权平均，面板足够大时去极值
 
-For four or more views the highest and lowest are dropped before averaging. One
-analyst having a bad day should not move the headline number.
+四个及以上视图时，聚合前先丢掉最高和最低的两个。某一个分析师状态不好，不应该影响头条数字。
 
-Weights are the analysts' self-reported confidence. This is a weak signal —
-self-reported confidence is poorly calibrated in language models and humans
-alike — but it is better than uniform weighting, and it is the first thing to
-replace when per-persona weights can be learned from resolved history.
+权重取分析师自报的置信度。这个信号很弱——语言模型和人类的自报置信度都不太校准——但它仍然优于等权，而且当每个角色的权重可以从已判定历史中学出来之后，这是第一个该被替换掉的东西。
 
-## 5. Interval width comes from disagreement
+## 5. 区间宽度来自分歧度
 
-`half_width = min(0.35, max(0.05, 1.5 * disagreement + 0.06 + |shift|))`.
+`half_width = min(0.35, max(0.05, 1.5 * disagreement + 0.06 + |shift|))`。
 
-The 1.5 multiplier and the floor keep the interval informative when the panel
-is tight (the 0.06 term) and prevent it from becoming useless when the panel
-splits (the 0.35 cap). The red-team shift is included so a critic that moves
-the number also widens the interval, which is the honest response to "we are
-less sure than the panel thinks".
+1.5 的系数和下限保证面板很紧时区间仍有信息量（`0.06` 项），上限保证面板分裂时区间不会变得毫无用处。红队调整量被计入，是为了让「我们其实没有面板想的那么确定」这个信号既改变数字，也改变区间宽度。
 
-This is not a probabilistic interval. It is a disagreement interval and should
-not be read as a 95% credible interval. Doing that properly needs a fitted
-model, not a heuristic.
+这不是概率意义上的区间。它是分歧区间，不应该被当作 95% 可信区间来读。要做成后者需要一个拟合好的模型，而不是一个启发式公式。
 
-## 6. TF-IDF instead of embeddings
+## 6. 用 TF-IDF 而不是向量检索
 
-The corpus a forecasting panel reads is measured in hundreds of documents, not
-millions. At that size the recall difference between lexical and dense
-retrieval is small, while the difference in operational cost is large: no
-index to build, no model to download, no network dependency.
+一个预测面板真正会读的语料，量级是几百篇文档，不是几百万篇。在这个规模上，词法检索和稠密检索的召回差异很小，而运维成本的差异很大：不需要建索引、不需要下载模型、不需要网络依赖。
 
-The recency weighting is the part that actually matters. A document from four
-months ago can still be structurally relevant, so stale documents stay
-reachable at a discount (`0.4 + 0.6 * freshness`) rather than being cut off.
+真正起作用的是时间加权。三个月前的文档仍然可能包含结构性信息，所以陈旧文档保持可达但被折价（`0.4 + 0.6 * freshness`），而不是被直接切掉。
 
-Swapping in a vector store means implementing one `search` method. The
-retriever is passed in, not constructed inside the pipeline.
+要换成向量库，只需实现一个 `search` 方法。检索器是从外部传入管线的，并不在管线内部构造。
 
-## 7. Recency half-life of 45 days
+## 7. 45 天的半衰期
 
-A half-life of two weeks throws away structural evidence too aggressively; three
-months lets stale narratives dominate. 45 days sits where breaking news
-dominates the top of the ranking but background documents remain reachable.
+两周半衰期会过于激进地丢掉结构性证据；三个月又会让陈旧叙事占据主导。45 天是一个让突发新闻排在检索结果前列、同时背景材料依然可达的位置。
 
-This is a guess, not a measurement. The right way to set it is to sweep the
-half-life against a resolved history and pick the value that maximises
-downstream accuracy. The parameter is exposed precisely so that sweep is
-cheap to write.
+这是猜测，不是测量。正确的设定方式是对已判定历史数据扫一遍半衰期，取下游准确率最高的那个值。这个参数之所以暴露出来，正是为了让那次扫描写起来足够便宜。
 
-## 8. Deterministic stub provider instead of mocking at the HTTP level
+## 8. 用确定性桩模型，而不是在 HTTP 层打桩
 
-Tests would normally stub the model call at the transport boundary. This
-project stubs it at the provider interface instead, with a deterministic lexical
-model.
+测试通常会在传输层打桩，把模型调用替换掉。本项目是在 provider 接口层打桩，用一个确定性的词法模型代替。
 
-Two reasons. First, it gives the evaluation harness something to score, so the
-calibration code path is exercised in CI rather than only in production.
-Second, it means the whole system can be demonstrated without a key, which
-makes review of the aggregation and calibration logic possible by anyone.
+两个原因。第一，它给评测工具提供了一个可打分的对象，使校准代码路径能在 CI 里被真正执行，而不是只在上线后才跑到。第二，它让整个系统无需 API key 就能演示，任何人都可以据此审阅聚合与校准逻辑。
 
-The stub's probabilities are deliberately imperfect. If it were perfect, the
-reliability bins would be uninformative and the Platt scaling would look
-magical. It is overconfident by construction, which is the failure mode real
-forecasting systems actually have.
+这个桩模型的概率是刻意不完美的。如果它是完美的，可靠性分箱将毫无信息量，Platt 缩放也会显得像魔法。它被构造成过度自信，而这正是真实预测系统真正会出的问题。
 
-## 9. The split is shuffled, and the recalibration refuses degenerate fits
+## 9. 划分打散，重校准拒绝拟合退化的情形
 
-Recalibration fitted and evaluated on the same questions manufactures skill.
-The evaluation harness shuffles with a fixed seed, splits 70/30, fits on the
-training split, and reports the held-out split both before and after
-recalibration.
+在同一批问题上既拟合又评估重校准，是在制造虚假的能力。评测工具用固定种子打散，按 70/30 划分，在训练集上拟合，然后分别报告留出集在校准前后的表现。
 
-The shuffle is not cosmetic. It was added after the harness produced a
-recalibrated Brier score of 0.85 against a raw score of 0.24 on the same
-questions. The cause was a dataset ordered by outcome: the sequential split
-produced a training set containing only one outcome class, the intercept
-learned there was unbounded, and the fitted curve extrapolated into the test
-set with total confidence. A sequential split on an ordered file is a silent
-landmine, which is why the split is now shuffled and the behaviour is covered
-by a test.
+打散不是形式上的修饰。它是被真实 bug 逼出来的：工具曾在同一批问题上给出重校准后 Brier 0.85、原始 Brier 0.24 的结果。根因是数据集按结果排序——顺序划分产出的训练集只包含单一结果类别，在上面学到的截距无界，拟合出的曲线以一种极其自信的姿态外推到测试集。对一个恰好有序的文件做顺序划分，是一颗静默的地雷，所以现在划分打散，并且有测试覆盖这个行为。
 
-The scaler is skipped entirely below eight training examples, and now also
-when the training split contains a single outcome class. In both cases the
-right answer is to ship the raw probability with an honest "we could not
-calibrate this" rather than a confident-looking recalibration.
+训练样本少于八个时直接跳过缩放，现在当训练集只包含单一结果类别时同样跳过。两种情况下正确的做法都是：交付原始概率，并诚实地说明「这一批没法校准」，而不是交付一个看起来很自信的重校准结果。
 
-## 9a. Why the evaluation set is real events
+## 9a. 为什么评测集用真实事件
 
-The first version of this dataset was synthetic questions with outcomes I
-assigned arbitrarily. It was worse than useless: it produced a Brier score
-that looked like a measurement of the system and was actually a measurement of
-how the outcomes happened to be ordered in the file.
+这个数据集的第一版是我随意指定结果合成的问题。它不只是没用——它产出的 Brier 分数看起来像是对系统的度量，实际上度量的是结果在文件里恰好是怎么排的。
 
-The dataset is now 22 central bank decisions from 2024 and 2025, each with a
-resolution rule stated in terms of the published decision, each with a
-verifiable outcome. These are the kind of questions forecasting systems are
-actually asked: binary, dated, publicly resolvable, with a reference class.
+现在数据集是 2024–2025 年的 22 个央行决议事件，每一个都用「已公布的决议」措辞给出判定规则，每一个的结果都可被公开核实。这些正是预测系统真正会被问到的问题：二元、有明确日期、公开可判定、并且有明确的参照类。
 
-The offline stub still has no predictive power on them, and the reported
-numbers say so. That is the correct outcome for a lexical model with no
-knowledge of monetary policy. The harness, the split and the recalibration
-path are what the dataset is there to exercise.
+离线桩模型对它们依然没有预测力，报告的数字也如实反映了这一点。对一个不了解货币政策的词法模型来说，这就是正确的结果。数据集存在的意义，是检验评测工具、划分方式与重校准这条路径。
 
-## 9b. What the calibration numbers do and do not show
+## 9b. 校准数字说明了什么，又没说明什么
 
-Recalibration improves the held-out log loss from 0.704 to 0.653 and the
-Brier score from 0.256 to 0.224. It does not beat the base rate Brier of
-0.204, and it should not: a forecaster with no information cannot beat the
-base rate no matter how well its probabilities are scaled. What the numbers
-demonstrate is that the recalibration path is wired correctly and that the
-split does not leak.
+重校准把留出集的对数损失从 0.704 降到 0.653，Brier 从 0.256 降到 0.224。它没有超过基准率 Brier 的 0.204，而且本来也不该超过：一个没有信息的预测器，无论概率缩放得多好，都不可能赢过基准率。这些数字说明的是，重校准路径接线正确，划分也没有泄漏。
 
-With 22 questions and a held-out split of 7, the standard error on a Brier
-score is larger than the gap between any two rows in the table. Reading a
-ranking into these numbers would be a mistake, and the harness reports them
-because the point is to make the comparison possible once there are enough
-questions to support it.
+22 道题、7 题留出集的条件下，Brier 分数的标准误大于表格里任意两行之差。从这些数字里读出排名是错误的。之所以把它们报告出来，是为了在问题数量足够支撑比较之后，那种比较随时可以做。
 
-## 10. JSONL traces, SQLite for state
+## 10. JSONL 存轨迹，SQLite 存状态
 
-The audit trail is a JSONL file per run. It is append-only, human readable,
-trivially greppable, and survives a crash mid-write without corrupting the
-previous lines.
+审计轨迹是每次运行一个 JSONL 文件。它只追加、可直接阅读、易于 grep，并且在中途崩溃时不会破坏之前的行。
 
-SQLite holds the forecasts, because they need to be queried, sorted and
-retrieved by id. The two have different access patterns and forcing them into
-one store would make one of them worse.
+SQLite 存放预测记录，因为它们需要被查询、排序、按 id 取回。两者访问模式不同，硬塞进同一个存储会让其中一个变差。
 
-## 11. What is deliberately not here
+## 11. 这里刻意没有的东西
 
-- **Authentication and rate limiting on the API.** This is an internal tool
-  shape. Adding auth without knowing the deployment topology is worse than
-  leaving it out explicitly.
-- **Async persistence.** SQLite writes are synchronous. They are fast enough
-  for read-mostly internal use and would need a queue and a real database
-  before they were not.
-- **A vector index.** See section 6.
-- **Learned analyst weights.** See section 4. This is the highest-value
-  next step and it needs resolved history, which this repository does not yet
-  have enough of.
+- **API 的认证与限流。** 这是一个面向内部工具的形态。在不知道部署拓扑的情况下加认证，比明确地不加更糟。
+- **异步持久化。** SQLite 写入是同步的。对以读为主的内部使用足够快，真正需要队列和正经数据库之前无需改动。
+- **向量索引。** 见第 6 节。
+- **学习得到的分析师权重。** 见第 4 节。这是价值最高的下一步，而它需要已判定的历史数据，目前这个仓库还没有积累到足够的量。
