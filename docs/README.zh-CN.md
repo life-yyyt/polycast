@@ -35,6 +35,9 @@ polycast eval --dataset evals/questions.json
 polycast simulate --agents 40 --truth 0.7
 ```
 
+共享选项（`--corpus`、`--db`、`--audit-dir`、`--model`）写在子命令前后都可以，
+`polycast --db app.db serve` 和 `polycast serve --db app.db` 是同一条命令。
+
 ## 流水线
 
 ```

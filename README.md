@@ -53,6 +53,10 @@ polycast eval --dataset evals/questions.json
 polycast simulate --agents 40 --truth 0.7
 ```
 
+Shared options (`--corpus`, `--db`, `--audit-dir`, `--model`) are accepted
+before or after the subcommand, so `polycast --db app.db serve` and
+`polycast serve --db app.db` are the same command.
+
 ## Pipeline
 
 ```
