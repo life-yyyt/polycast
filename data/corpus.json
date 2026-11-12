@@ -1,0 +1,86 @@
+[
+  {
+    "doc_id": "doc-001",
+    "text": "Manufacturing activity in the sample expanded for the third consecutive month, with the expansion rate accelerating slightly from the previous reading. New export orders rose and supplier delivery times shortened.",
+    "source": "sample-statistics-bureau",
+    "published_at": "2026-09-28T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-002",
+    "text": "The central bank held the policy rate steady, stating that inflation remains above target but that the disinflation trend continues. Two members voted for a quarter-point cut.",
+    "source": "sample-central-bank",
+    "published_at": "2026-10-06T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-003",
+    "text": "Consumer confidence rose to a fourteen-month high, driven by stronger labour market data and easing food price inflation. Retailers reported a measurable pickup in discretionary spending.",
+    "source": "sample-confidence-survey",
+    "published_at": "2026-10-14T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-004",
+    "text": "Energy prices fell sharply on increased supply and mild weather. Utilities said lower wholesale costs will be passed through to end users from the next billing cycle.",
+    "source": "sample-energy-desk",
+    "published_at": "2026-10-19T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-005",
+    "text": "The regulator published consultation responses on cross-border data transfers, indicating that the final rules will permit the vast majority of existing transfer mechanisms to continue without additional approval.",
+    "source": "sample-regulator",
+    "published_at": "2026-10-25T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-006",
+    "text": "Housing transaction volumes in the metro area declined for a fourth month. Inventory of unsold units rose, and two large developers announced discounts to clear stock.",
+    "source": "sample-property-desk",
+    "published_at": "2026-08-21T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-007",
+    "text": "A major automaker confirmed it will move production of two models to a new plant, adding an estimated eight hundred direct jobs over eighteen months.",
+    "source": "sample-industry-wire",
+    "published_at": "2026-10-02T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-008",
+    "text": "Analysts tracking the semiconductor cycle noted inventory normalisation is complete at foundries, though capital expenditure guidance remains flat rather than expanding.",
+    "source": "sample-tech-desk",
+    "published_at": "2026-09-15T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-009",
+    "text": "The opposition filed a formal request for a public inquiry into procurement practices. The government described the request as procedurally valid but declined to commit to a timeline.",
+    "source": "sample-political-desk",
+    "published_at": "2026-10-11T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-010",
+    "text": "Unemployment claims fell for the fourth week in a row, with continuing claims also declining, suggesting re-employment rather than withdrawal from the labour force.",
+    "source": "sample-statistics-bureau",
+    "published_at": "2026-10-08T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-011",
+    "text": "A long-running trade dispute was resolved through arbitration, with both parties withdrawing the retaliatory tariffs announced earlier in the year.",
+    "source": "sample-wire-service",
+    "published_at": "2026-07-30T00:00:00Z",
+    "url": null
+  },
+  {
+    "doc_id": "doc-012",
+    "text": "The sports federation selection committee delayed the decision on the head coach appointment pending a governance review of the selection process.",
+    "source": "sample-sports-desk",
+    "published_at": "2026-06-18T00:00:00Z",
+    "url": null
+  }
+]

@@ -1,0 +1,244 @@
+[
+  {
+    "question": {
+      "text": "Will the Federal Reserve cut the federal funds target range at its December 2024 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the target range; no otherwise.",
+      "resolve_by": "2024-12-19T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "federal-reserve"],
+      "reference_class": "scheduled FOMC decisions with a stated disinflation trend"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Bank of England cut Bank Rate at its November 2024 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of Bank Rate; no otherwise.",
+      "resolve_by": "2024-11-08T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-england"],
+      "reference_class": "scheduled MPC decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the European Central Bank cut its deposit facility rate at its June 2024 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the deposit facility rate; no otherwise.",
+      "resolve_by": "2024-06-13T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "ecb"],
+      "reference_class": "scheduled ECB monetary policy decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Bank of Japan end its negative interest rate policy at its March 2024 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision moves the policy rate into non-negative territory; no otherwise.",
+      "resolve_by": "2024-03-20T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-japan"],
+      "reference_class": "scheduled BOJ monetary policy meetings"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Bank of Japan raise its policy rate at its January 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces an increase of the policy rate; no otherwise.",
+      "resolve_by": "2025-01-25T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-japan"],
+      "reference_class": "scheduled BOJ monetary policy meetings"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Federal Reserve cut the federal funds target range at its September 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the target range; no otherwise.",
+      "resolve_by": "2025-09-18T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "federal-reserve"],
+      "reference_class": "scheduled FOMC decisions with a stated disinflation trend"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Federal Reserve cut the federal funds target range at its October 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the target range; no otherwise.",
+      "resolve_by": "2025-10-30T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "federal-reserve"],
+      "reference_class": "scheduled FOMC decisions with a stated disinflation trend"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Federal Reserve cut the federal funds target range at its December 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the target range; no otherwise.",
+      "resolve_by": "2025-12-11T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "federal-reserve"],
+      "reference_class": "scheduled FOMC decisions with a stated disinflation trend"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the European Central Bank cut its deposit facility rate at its January 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the deposit facility rate; no otherwise.",
+      "resolve_by": "2025-01-31T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "ecb"],
+      "reference_class": "scheduled ECB monetary policy decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the European Central Bank cut its deposit facility rate at its March 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the deposit facility rate; no otherwise.",
+      "resolve_by": "2025-03-07T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "ecb"],
+      "reference_class": "scheduled ECB monetary policy decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the European Central Bank cut its deposit facility rate at its June 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the deposit facility rate; no otherwise.",
+      "resolve_by": "2025-06-06T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "ecb"],
+      "reference_class": "scheduled ECB monetary policy decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Bank of England cut Bank Rate at its February 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of Bank Rate; no otherwise.",
+      "resolve_by": "2025-02-07T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-england"],
+      "reference_class": "scheduled MPC decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Bank of England cut Bank Rate at its May 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of Bank Rate; no otherwise.",
+      "resolve_by": "2025-05-09T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-england"],
+      "reference_class": "scheduled MPC decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Reserve Bank of Australia cut the cash rate at its February 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the cash rate; no otherwise.",
+      "resolve_by": "2025-02-19T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "rba"],
+      "reference_class": "scheduled RBA monetary policy decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Swiss National Bank cut its policy rate at its June 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the policy rate; no otherwise.",
+      "resolve_by": "2025-06-20T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "snb"],
+      "reference_class": "scheduled SNB monetary policy assessments"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Federal Reserve cut the federal funds target range at its January 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the target range; no otherwise.",
+      "resolve_by": "2025-01-30T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "federal-reserve"],
+      "reference_class": "scheduled FOMC decisions with a stated disinflation trend"
+    },
+    "outcome": 0
+  },
+  {
+    "question": {
+      "text": "Will the European Central Bank cut its deposit facility rate at its April 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the deposit facility rate; no otherwise.",
+      "resolve_by": "2025-04-18T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "ecb"],
+      "reference_class": "scheduled ECB monetary policy decisions"
+    },
+    "outcome": 0
+  },
+  {
+    "question": {
+      "text": "Will the European Central Bank cut its deposit facility rate at its July 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the deposit facility rate; no otherwise.",
+      "resolve_by": "2025-07-25T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "ecb"],
+      "reference_class": "scheduled ECB monetary policy decisions"
+    },
+    "outcome": 0
+  },
+  {
+    "question": {
+      "text": "Will the Bank of England cut Bank Rate at its March 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of Bank Rate; no otherwise.",
+      "resolve_by": "2025-03-21T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-england"],
+      "reference_class": "scheduled MPC decisions"
+    },
+    "outcome": 0
+  },
+  {
+    "question": {
+      "text": "Will the Bank of Canada hold its policy rate steady at its January 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision leaves the policy rate unchanged; no otherwise.",
+      "resolve_by": "2025-01-30T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "bank-of-canada"],
+      "reference_class": "scheduled BoC policy interest rate decisions"
+    },
+    "outcome": 1
+  },
+  {
+    "question": {
+      "text": "Will the Federal Reserve cut the federal funds target range at its July 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the target range; no otherwise.",
+      "resolve_by": "2025-07-31T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "federal-reserve"],
+      "reference_class": "scheduled FOMC decisions with a stated disinflation trend"
+    },
+    "outcome": 0
+  },
+  {
+    "question": {
+      "text": "Will the Reserve Bank of Australia cut the cash rate at its August 2025 meeting?",
+      "resolution_criteria": "Resolved yes if the published decision announces a reduction of the cash rate; no otherwise.",
+      "resolve_by": "2025-08-06T00:00:00Z",
+      "horizon": "days",
+      "tags": ["policy", "rates", "rba"],
+      "reference_class": "scheduled RBA monetary policy decisions"
+    },
+    "outcome": 0
+  }
+]
