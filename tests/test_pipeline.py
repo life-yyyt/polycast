@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -14,7 +14,7 @@ def make_question() -> Question:
     return Question(
         text="Will the central bank cut the policy rate at the next scheduled meeting?",
         resolution_criteria="Resolved yes if the published decision confirms a reduction.",
-        resolve_by=datetime(2026, 12, 18, tzinfo=timezone.utc),
+        resolve_by=datetime(2026, 12, 18, tzinfo=UTC),
         reference_class="scheduled policy meetings",
     )
 

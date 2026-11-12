@@ -41,7 +41,8 @@ class TfidfRetriever:
         self._norms = {d.doc_id: self._norm(self._tf[d.doc_id]) for d in documents}
 
     def _norm(self, tf: Counter[str]) -> float:
-        return math.sqrt(sum((count * self._idf.get(t, 0.0)) ** 2 for t, count in tf.items())) or 1.0
+        magnitude = sum((count * self._idf.get(t, 0.0)) ** 2 for t, count in tf.items())
+        return math.sqrt(magnitude) or 1.0
 
     def _similarity(self, query_tf: Counter[str], query_norm: float, doc_id: str) -> float:
         dot = 0.0

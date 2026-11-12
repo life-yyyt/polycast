@@ -80,8 +80,9 @@ def build_analyst_prompt(question: Question, evidence: list[Evidence], persona: 
         )
     lines += [
         "",
-        'Respond with JSON: {"persona": str, "probability": float 0..1, '
-        '"reasoning": str, "evidence_ids": [str], "confidence": float 0..1}.',
+        "Respond with JSON: "
+        '{"persona": str, "probability": float 0..1, "reasoning": str, '
+        '"evidence_ids": [str], "confidence": float 0..1}.',
     ]
     return "\n".join(lines)
 
@@ -115,11 +116,11 @@ def aggregate(
     weights = [max(v.confidence, 0.05) for v in views]
 
     if len(views) >= 4:
-        ordered = sorted(zip(probs, weights))
+        ordered = sorted(zip(probs, weights, strict=True))
         ordered = ordered[1:-1]
         probs_w = ordered
     else:
-        probs_w = list(zip(probs, weights))
+        probs_w = list(zip(probs, weights, strict=True))
 
     total_weight = sum(w for _, w in probs_w)
     mean = sum(p * w for p, w in probs_w) / total_weight

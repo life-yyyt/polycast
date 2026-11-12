@@ -6,7 +6,7 @@ import argparse
 import asyncio
 import json
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from .audit import ForecastStore
 from .corpus import build_retriever
@@ -38,7 +38,7 @@ def cmd_forecast(args) -> int:
     resolve_by = (
         datetime.fromisoformat(args.resolve_by)
         if args.resolve_by
-        else datetime.now(timezone.utc).replace(month=12, day=31)
+        else datetime.now(UTC).replace(month=12, day=31)
     )
     question = Question(
         text=args.text,

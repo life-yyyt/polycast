@@ -8,21 +8,21 @@ silently producing a miscalibrated number downstream.
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 
 from pydantic import BaseModel, Field, field_validator
 
 
 def utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def new_id() -> str:
     return uuid.uuid4().hex[:12]
 
 
-class Horizon(str, Enum):
+class Horizon(StrEnum):
     DAYS = "days"
     WEEKS = "weeks"
     MONTHS = "months"

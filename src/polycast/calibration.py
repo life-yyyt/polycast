@@ -94,7 +94,12 @@ class PlattScaler:
     def __init__(self, a: float = 1.0, b: float = 0.0) -> None:
         self.a, self.b = a, b
 
-    def fit(self, pairs: list[tuple[float, int]], lr: float = 0.1, epochs: int = 2000) -> "PlattScaler":
+    def fit(
+        self,
+        pairs: list[tuple[float, int]],
+        lr: float = 0.1,
+        epochs: int = 2000,
+    ) -> PlattScaler:
         if len(pairs) < 8:
             # Below this the fit mostly memorises noise; better to ship the raw
             # probabilities and say so than to pretend we calibrated.
@@ -110,7 +115,7 @@ class PlattScaler:
         n = len(xs)
         for _ in range(epochs):
             ga = gb = 0.0
-            for x, y in zip(xs, ys):
+            for x, y in zip(xs, ys, strict=True):
                 err = _sigmoid(a * x + b) - y
                 ga += err * x
                 gb += err
